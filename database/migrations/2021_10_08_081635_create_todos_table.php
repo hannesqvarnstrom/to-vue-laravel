@@ -16,9 +16,11 @@ class CreateTodosTable extends Migration
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description')->default(null);
+            $table->string('description')->nullable()->default(null);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('list_id')->nullable()->constrained();
+            $table->foreignId('todo_list_id')->nullable()->constrained();
+            $table->boolean('done')->default(false);
+            $table->tinyInteger('order')->nullable();
             $table->timestamps();
         });
     }
