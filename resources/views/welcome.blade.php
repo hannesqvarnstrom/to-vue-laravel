@@ -17,12 +17,7 @@
 </head>
 
 <body class="antialiased">
-    <h1>Welcome to the Todo Vue app! (made in Laravel)</h1>
-
-    <div id="app">
-        <todo title="Hello I'm a todo" description="This is a description" :done="false"></todo>
-    </div>
-    <script src="js/app.js"></script>
+    Welcome! Go to <a href="{{route('login')}}">Login</a>, or <a href="{{route('register')}}">Register</a>
 </body>
 
 </html>

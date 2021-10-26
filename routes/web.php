@@ -26,3 +26,7 @@ Route::get('/test', function () {
     echo ("After changes: in list" . "\n" . $todo->todo_list . "\n at place $todo->order");
     echo ('List is now ordered like this:' . "\n" . $todo->todo_list->todos()->orderBy('order')->get());
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -14,6 +14,7 @@ export default {
   computed: {},
   methods: {
     complete() {
+        console.log('hello')
       axios.get("http://localhost/api/test").then((data) => {
         console.log(data);
       });
