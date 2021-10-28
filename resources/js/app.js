@@ -21,6 +21,8 @@ window.Vue = require('vue').default;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('todo', require('./components/Todo.vue').default);
+Vue.component('create-todolist', require('./components/TodolistForm.vue').default)
+Vue.component('todolists', require('./components/Todolists.vue').default)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

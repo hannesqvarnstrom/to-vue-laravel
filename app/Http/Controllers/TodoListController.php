@@ -10,11 +10,11 @@ class TodoListController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user()->todo_lists;
     }
 
     /**
@@ -24,10 +24,10 @@ class TodoListController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
-    /**
+    /***-
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +35,11 @@ class TodoListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(['title' => 'required|max:255']);
+        $user = $request->user('web');
+        $todoList = TodoList::create_in_user($user, $request->get('title'));
+
+        return $todoList;
     }
 
     /**

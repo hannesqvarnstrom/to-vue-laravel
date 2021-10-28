@@ -27,6 +27,8 @@ Route::get('/test', function () {
     echo ('List is now ordered like this:' . "\n" . $todo->todo_list->todos()->orderBy('order')->get());
 });
 
+Route::resource('todo-lists', \App\Http\Controllers\TodoListController::class)
+    ->middleware('auth:web')->except(['show']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

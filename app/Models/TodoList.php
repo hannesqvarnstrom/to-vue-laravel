@@ -11,6 +11,11 @@ class TodoList extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'title',
+        'order'
+    ];
     /**
      * @return BelongsTo|User
      */
@@ -25,7 +30,7 @@ class TodoList extends Model
     }
 
     /**
-     
+
      * @param User $user
      * @param string $title
      * @return void
