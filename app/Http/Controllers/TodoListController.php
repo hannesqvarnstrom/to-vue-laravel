@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TodoList;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TodoListController extends Controller
@@ -39,7 +40,7 @@ class TodoListController extends Controller
         $user = $request->user('web');
         $todoList = TodoList::create_in_user($user, $request->get('title'));
 
-        return $todoList;
+        return json_encode($todoList);
     }
 
     /**

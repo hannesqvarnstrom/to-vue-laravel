@@ -2148,10 +2148,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      title: ''
+      title: '',
+      show: false
     };
   },
   computed: {},
@@ -2159,15 +2163,18 @@ __webpack_require__.r(__webpack_exports__);
     onFetchData: function onFetchData(data) {
       this.$emit('stored', data);
     },
+    toggleShow: function toggleShow(e) {
+      this.show = !this.show;
+    },
     submit: function submit(e) {
+      var _this = this;
+
       e.preventDefault();
       var title = this.title;
       apiFetch(this.url, {
         title: title
       }, 'POST').then(function (data) {
-        return data.json();
-      }).then(function (data) {
-        return onDataFetch(data);
+        _this.onFetchData(data);
       });
     }
   },
@@ -2200,6 +2207,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2207,7 +2215,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    onStored: function onStored(data) {
+      this.todos.push(data);
+    }
+  },
   created: function created() {
     var _this = this;
 
@@ -38074,31 +38086,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { attrs: { method: "post" } }, [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.title,
-          expression: "title"
-        }
-      ],
-      attrs: { name: "title", placeholder: "Title" },
-      domProps: { value: _vm.title },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.title = $event.target.value
-        }
-      }
+  return _c("div", { staticClass: "form-container" }, [
+    _c("i", {
+      class: ["fas", "icon-button", _vm.show ? "fa-times" : "fa-plus"],
+      on: { click: _vm.toggleShow }
     }),
     _vm._v(" "),
-    _c("button", { attrs: { type: "submit" }, on: { click: _vm.submit } }, [
-      _vm._v("Submit")
-    ])
+    _c(
+      "form",
+      {
+        staticClass: "form card hideable from-left margin-0",
+        class: { hidden: !_vm.show, shown: _vm.show },
+        attrs: { method: "post" }
+      },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.title,
+              expression: "title"
+            }
+          ],
+          attrs: { name: "title", placeholder: "Title" },
+          domProps: { value: _vm.title },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.title = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "submit button ",
+            attrs: { type: "submit" },
+            on: { click: _vm.submit }
+          },
+          [_vm._v("Submit")]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -38127,13 +38160,18 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("p", [_vm._v("Todolists")]),
+      _c("h2", { staticClass: "text-center underline" }, [_vm._v("Todolists")]),
+      _vm._v(" "),
+      _c("create-todolist", {
+        attrs: { url: _vm.url },
+        on: { stored: _vm.onStored }
+      }),
       _vm._v(" "),
       _c(
         "ul",
         { attrs: { "v-if": _vm.todos.length } },
         _vm._l(_vm.todos, function(todo) {
-          return _c("li", { key: todo.id }, [
+          return _c("li", { key: todo.id, staticClass: "card" }, [
             _vm._v(
               "\n            " +
                 _vm._s(todo.id + ", " + todo.title) +
@@ -38142,9 +38180,7 @@ var render = function() {
           ])
         }),
         0
-      ),
-      _vm._v(" "),
-      _c("create-todolist", { attrs: { url: _vm.url } })
+      )
     ],
     1
   )

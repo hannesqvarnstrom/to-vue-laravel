@@ -1,12 +1,13 @@
 <template>
 <div>
-    <p>Todolists</p>
+    <h2 class="text-center underline">Todolists</h2>
+    <create-todolist :url="url" @stored="onStored"></create-todolist>
     <ul :v-if="todos.length">
-        <li v-for="todo in todos" :key="todo.id">
+        <li class="card" v-for="todo in todos" :key="todo.id">
             {{todo.id + ', ' + todo.title}}
         </li>
     </ul>
-    <create-todolist :url="url"></create-todolist>
+    
 </div>
 </template>
 <script>
@@ -17,7 +18,11 @@ export default{
         }
     },
     computed: {},
-    methods: {},
+    methods: {
+        onStored(data){
+            this.todos.push(data)
+        }
+    },
     created: function(){
         apiFetch(this.url).then(data => {
             this.todos = data;

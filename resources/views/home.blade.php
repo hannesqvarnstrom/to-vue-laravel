@@ -13,10 +13,10 @@
         });
 
         const apiFetch = (url, body, method = 'GET') => {
-            return fetch(url, {body, method, headers: {
+            return fetch(url, {body: JSON.stringify(body), method, headers: {
                     'X-CSRF-TOKEN': token,                     
                     'content-type': 'application/json',
-                    'accepts': 'application/json'
+                    'Accept': 'application/json'
                     }}).then(data => data.json())
         }
     </script>
@@ -35,23 +35,18 @@
                     {{ __('You are logged in!') }}
                         <h1>Welcome to the Todo Vue app! (made in Laravel)</h1>
 
-
-
-                    @foreach(Auth::user()->todo_lists as $list)
-                        <p>id: {{$list->id}}, title: {{$list->title}}</p>
-                    @endforeach
-
                     {{-- <form method="post" action="{{route('todo-lists.store')}}">
                         @csrf
                         REGULAR WEB POST FORM
                         <input type="text" name="title" placeholder="Title"/>
                         <button type="submit">Submit</button>
                     </form> --}}
-                    <todolists url="{{route('todo-lists.index')}}"></todolists>
+                    
                     {{-- <create-todolist url="{{route('todo-lists.store')}}"></create-todolist> --}}
 
                 </div>
             </div>
+            <todolists url="{{route('todo-lists.index')}}"></todolists>
         </div>
     </div>
 </div>
