@@ -46,8 +46,13 @@
 
                 </div>
             </div>
-            <todolists url="{{route('todo-lists.index')}}"></todolists>
+
         </div>
     </div>
+    @section('sidebar')
+    <aside class="right">
+        <todolists url="{{route('todo-lists.index')}}"></todolists>
+    </aside>
+    @endsection
 </div>
 @endsection

@@ -26,14 +26,15 @@ export default {
             this.show = !this.show;
         },
         submit(e) {
+            this.$emit('toggleLoading', true);
             e.preventDefault()
             const title = this.title;
             apiFetch(this.url, {title}, 'POST').then(data =>
             {
+                this.$emit('toggleLoading', false);
                 this.onFetchData(data)
             }
-                
-            )
+            ).catch(e => this.$emit('toggleLoading', false));
         }
     },
     props: {

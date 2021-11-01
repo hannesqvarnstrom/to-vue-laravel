@@ -2169,12 +2169,17 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit(e) {
       var _this = this;
 
+      this.$emit('toggleLoading', true);
       e.preventDefault();
       var title = this.title;
       apiFetch(this.url, {
         title: title
       }, 'POST').then(function (data) {
+        _this.$emit('toggleLoading', false);
+
         _this.onFetchData(data);
+      })["catch"](function (e) {
+        return _this.$emit('toggleLoading', false);
       });
     }
   },
@@ -2208,14 +2213,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      todos: []
+      todos: [],
+      loading: false,
+      showTodos: false
     };
   },
   computed: {},
   methods: {
+    onToggleLoading: function onToggleLoading(bool) {
+      this.loading = bool;
+    },
     onStored: function onStored(data) {
       this.todos.push(data);
     }
@@ -2223,8 +2235,10 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    this.loading = true;
     apiFetch(this.url).then(function (data) {
       _this.todos = data;
+      _this.loading = false;
     });
   },
   props: {
@@ -38160,27 +38174,51 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h2", { staticClass: "text-center underline" }, [_vm._v("Todolists")]),
+      _c(
+        "h2",
+        {
+          staticClass: "text-center",
+          on: {
+            click: function($event) {
+              _vm.showTodos = !_vm.showTodos
+            }
+          }
+        },
+        [
+          _vm._v("Todolists "),
+          _c("i", {
+            class: ["fas", _vm.showTodos ? "fa-arrow-up" : "fa-arrow-down"]
+          })
+        ]
+      ),
       _vm._v(" "),
       _c("create-todolist", {
         attrs: { url: _vm.url },
-        on: { stored: _vm.onStored }
+        on: { toggleLoading: _vm.onToggleLoading, stored: _vm.onStored }
       }),
       _vm._v(" "),
-      _c(
-        "ul",
-        { attrs: { "v-if": _vm.todos.length } },
-        _vm._l(_vm.todos, function(todo) {
-          return _c("li", { key: todo.id, staticClass: "card" }, [
-            _vm._v(
-              "\n            " +
-                _vm._s(todo.id + ", " + todo.title) +
-                "\n        "
-            )
+      _vm.todos.length && _vm.showTodos
+        ? _c(
+            "ul",
+            _vm._l(_vm.todos, function(todo) {
+              return _c("li", { key: todo.id, staticClass: "card" }, [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(todo.id + ", " + todo.title) +
+                    "\n        "
+                )
+              ])
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.loading
+        ? _c("div", [
+            _vm._v("LOADING\n        "),
+            _c("i", { staticClass: "fas fa-spinner fa-spin" })
           ])
-        }),
-        0
-      )
+        : _vm._e()
     ],
     1
   )

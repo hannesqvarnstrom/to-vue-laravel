@@ -17,6 +17,9 @@ $card-br-r: 8px;
 main {
     background-color: $bg-main;
     min-height: 90vh;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
 }
 
 .card {
@@ -97,3 +100,8 @@ main {
     }
 }
 
+aside {
+    &.right {
+        
+    }
+}

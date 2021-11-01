@@ -10007,6 +10007,9 @@ h3 {
 main {
   background-color: #b18282;
   min-height: 90vh;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
 }
 
 .card {
